@@ -49,6 +49,10 @@ for image_batch,label_batch in dataloader_train:
     break
 
 model = models.MyModel()
+loss_fn = torch.nn.CrossEntropyLoss()
+
+learning_rate = 1e-3
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
 
 acc_train = models.test_accuracy(model, dataloader_train)
 print(f'test accuracy: {acc_train * 100:.3f}%')
@@ -82,6 +86,7 @@ for k in range(n_epochs):
     time_end = time.time()
     loss_train_history.append(loss_train)
     print(f'train loss: {loss_train:.3f} ({time_end-time_start}s)', end=', ')
+    print(f'train loss: {loss_train:.3f} ({time_end-time_start:.1f}s)', end=', ')
    
     loss_test = models.test(model, dataloader_test, loss_fn)
     loss_test_history.append(loss_test)
